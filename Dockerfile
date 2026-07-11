@@ -29,21 +29,10 @@ RUN /usr/bin/mkdir -p /var/run/mysqld
 RUN /usr/bin/chown -R mysql:mysql /var/run/mysqld /var/lib/mysql
 
 # Initialize MySQL
-RUN if [ ! -d '/var/lib/mysql/mysql' ]; then \
-       /usr/bin/mysqld --initialize-insecure; \
-    fi
+#RUN /usr/libexec/mysqld --initialize-insecure
 
 # Enable mysqld.service
 RUN /usr/bin/systemctl enable mysqld.service
-
-# Wait for MySQL to fully boot up
-RUN /usr/bin/echo "Waiting for MySQL to start..."
-RUN until mysqladmin ping &>/dev/null; do \
-      /usr/bin/sleep 1; \
-    done
-
-# Secure / set root password if needed (Optional: change 'secretpassword')
-RUN /usr/bin/mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'secretpassword'; FLUSH PRIVILEGES;"
 
 
 ### Configure Apache:
@@ -54,6 +43,11 @@ RUN /usr/bin/systemctl enable httpd.service
 
 # Expose HTTP port
 EXPOSE 80 443 3306
+
+
+# Copy and configure the startup script
+COPY entrypoint.sh ./entrypoint.sh
+RUN chmod +x ./entrypoint.sh
 
 COPY index.php /var/www/html
 
