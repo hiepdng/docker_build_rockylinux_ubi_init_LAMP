@@ -41,6 +41,7 @@ docker run -d \
   -e MYSQL_ROOT_PASSWORD="secretpassword" \
   -e MYSQL_USER="mysql" \
   -e MYSQL_PASSWORD="secretpassword" \
+  --entrypoint ./entrypoint.sh \
    rocky_ubi_init_lamp
 ```
 - **Testing**  
