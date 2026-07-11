@@ -1,12 +1,7 @@
 ## Building Docker image: Rocky Linux 9 ubi-init with LAMP stack
 
-### Build your own image:
-`$ cd /the_directory_containing_Dockerfile/`\
+### Build your own image:  
 `$ docker build -t rocky_ubi_init_lamp .`  
-
-or
-### Pull image from dockerhub:
-`$ docker pull hiepdng/rocky_unit_init_lamp:latest`
 
 <br/>
 
